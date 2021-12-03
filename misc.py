@@ -82,26 +82,28 @@ def SetChapter(novel: str, chapter_number: str):
         chapter.write(ch)
 
 
-def SetTotalDownloaded():
-    """Calculate the sum of the downloaded chapter and set the total in config"""
-    total = sum(
-        [
-            int(lib.config.get(section, "downloadedchapter"))
-            for section in lib.config.sections()[1:]
-        ]
-    )
-    lib.config.set("*USER*", "totaldownloaded", str(total))
+# not used anymore
+
+# def SetTotalDownloaded():
+#     """Calculate the sum of the downloaded chapter and set the total in config"""
+#     total = sum(
+#         [
+#             int(lib.config.get(section, "downloadedchapter"))
+#             for section in lib.config.sections()[1:]
+#         ]
+#     )
+#     lib.config.set("*USER*", "totaldownloaded", str(total))
 
 
-def SetTotalRead():
-    """Calculate the sum of the read chapter and set the total in config"""
-    total = sum(
-        [
-            int(lib.config.get(section, "chapterread"))
-            for section in lib.config.sections()[1:]
-        ]
-    )
-    lib.config.set("*USER*", "totalread", str(total))
+# def SetTotalRead():
+#     """Calculate the sum of the read chapter and set the total in config"""
+#     total = sum(
+#         [
+#             int(lib.config.get(section, "chapterread"))
+#             for section in lib.config.sections()[1:]
+#         ]
+#     )
+#     lib.config.set("*USER*", "totalread", str(total))
 
 
 def SetMaxChapter(novel: str):

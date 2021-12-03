@@ -141,4 +141,22 @@ class ScraperGui(App):
 
 
 if __name__ == "__main__":
+    import os
+
+    if not os.path.isdir("DATA"):
+        os.mkdir("DATA")
+
+    if not os.path.isdir("epub"):
+        os.mkdir("epub")
+
+    if not os.path.isdir("pdf"):
+        os.mkdir("pdf")
+
+    if not os.path.isdir("config"):
+        import shutil
+
+        src = "templace"
+        dst = "config"
+        shutil.copy(src, dst)
+
     ScraperGui().run()
