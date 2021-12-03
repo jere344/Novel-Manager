@@ -1,0 +1,289 @@
+#:kivy 2.0
+#:import ceil math.ceil
+#:import Path pathlib.Path
+
+<Spacing@BoxLayout>
+    orientation:"horizontal"
+    size_hint:1, 0.1
+
+<Button>:
+    font_size:'12sp'
+
+<Label>:
+    font_name:("DATA/" + "lucida-sans-unicode.ttf")
+
+<Border@Canvas>:
+    Color:
+        rgba:0,0,1,1
+    Line:
+        width:2
+        rectangle:(self.x,self.y,self.width,self.height)
+
+<Cover>:
+    button:button
+    anchor_x:"center"
+    anchor_y:"bottom"
+    size:230,330
+    size_hint_y:None
+    Button:
+        id:button
+        size:230, 330
+        size_hint:None, None
+        pos:self.parent.pos
+
+
+
+
+
+# from https://gist.github.com/kived/862db38078170ec0ef83
+
+<ScaleLabel@Label>:
+	_scale: 1. if self.texture_size[0] < self.width else float(self.width) / self.texture_size[0]
+	canvas.before:
+		PushMatrix
+		Scale:
+			origin: self.center
+			x: self._scale or 1.
+			y: self._scale or 1.
+	canvas.after:
+		PopMatrix
+
+
+
+
+
+
+
+
+
+
+
+<ScraperWidget>:
+    main:main
+    grid_novel:grid_novel
+
+    # Middel pannel
+    icon:icon
+    scroll_summary:scroll_summary
+    summary:summary
+    label_downloaded:label_downloaded
+    label_read:label_read
+    label_title:label_title
+    #Buttons :
+    button_download_10:button_download_10
+    button_download_100:button_download_100
+    button_download_all:button_download_all
+    button_epub:button_epub
+    button_PDF:button_PDF
+    button_refresh:button_refresh
+    button_web:button_web
+    button_delete:button_delete
+    button_add:button_add
+    input_url:input_url
+    input_source:input_source
+    
+
+    #Bottom pannel
+    label_last:label_last
+    
+    AnchorLayout:
+        id:main
+        size:root.size
+        label_last:label_last
+
+        anchor_x:"center"
+
+        BoxLayout:
+            size_hint:1, 1
+            orientation:"vertical"
+
+
+            ScrollView:
+                size_hint:1, 0.7
+                
+                
+                GridLayout:
+                    id:grid_novel
+                    padding:[10, 10, 0, 0]
+                    cols:int((self.parent.width - 10) / 240)
+                    spacing:10
+                    size_hint:1, None
+                    height:int(10 + 340 * ceil(int(len(app.config_file.sections()[1:])) / (self.cols if self.cols else 2)))
+
+            BoxLayout:
+                orientation:"horizontal"
+                size_hint:1, 0.01
+
+            BoxLayout:
+                size_hint:1, 0.29
+                orientation:"horizontal"
+                spacing:2
+
+                GridLayout:
+                    cols:2
+                    rows:1
+                    size_hint:0.6, 1
+                    spacing:2
+
+                    Button:
+                        id:icon
+                        size_hint:None, 1
+                        width:self.parent.height/1.43
+                        text:""
+
+                    ScrollView:
+                        id:scroll_summary
+                        do_scroll_x:True
+                        do_scroll_y:True
+                        size_hint:None, None
+                        size:self.parent.width - icon.width, self.parent.height
+
+                        Label:
+                            id:summary
+                            size_hint:None, None
+                            width:self.parent.width
+                            font_size:12
+                            text_size:self.width, None
+                            height:self.texture_size[1]
+
+                GridLayout:
+                    cols:2
+                    size_hint:0.4, 1
+
+                    BoxLayout:
+                        orientation:"vertical"
+                        spacing:2
+                        size_hint:0.5, 1
+
+                        
+
+                        Button:
+                            id:button_download_10
+                            size_hint:1, 0.1
+                            text:"download 10"
+                            font_size:int(min([self.height/2, self.width/8]))
+
+                        Button:
+                            id:button_download_100
+                            size_hint:1, 0.1
+                            text:"download 100"
+                            font_size:button_download_10.font_size
+
+                        Button:
+                            id:button_download_all
+                            size_hint:1, 0.1
+                            text:"download all"
+                            font_size:button_download_10.font_size
+                        
+                        Button:
+                            id:button_refresh
+                            size_hint:1, 0.1
+                            text:"Refresh Infos"
+                            font_size:button_download_10.font_size
+                        
+                        Button:
+                            id:button_epub
+                            size_hint:1, 0.1
+                            text:"Create Epub"
+                            font_size:button_download_10.font_size
+
+    	                Button:
+                            id:button_PDF
+                            size_hint:1, 0.1
+                            text:"Create PDF"
+                            font_size:button_download_10.font_size
+
+                        Button:
+                            id:button_web
+                            size_hint:1, 0.1
+                            text:"Web Reader"
+                            font_size:button_download_10.font_size
+                        
+                        Button:
+                            id:button_delete
+                            size_hint:1, 0.1
+                            text:"Delete Novel"
+                            font_size:button_download_10.font_size
+
+                    BoxLayout:
+                        orientation:"vertical"
+                        size_hint:0.5, 1
+
+
+                        ScaleLabel:
+                            id:label_title
+                            text:""
+                            size_hint:1, 0.1
+                            bold:True
+                            text_size:self.size
+                            halign: 'center'
+                        
+                        BoxLayout:
+                            orientation:"horizontal"
+                            size_hint:1, 0.05
+
+                        ScaleLabel:
+                            id:label_downloaded
+                            text:"downloaded :"
+                            size_hint:1, 0.1
+                            text_size:self.width, None
+                            halign: 'center'
+                
+
+                        ScaleLabel:
+                            id:label_read
+                            text:"Read :"
+                            size_hint:1, 0.1
+                            text_size:self.width, None
+                            halign: 'center'
+
+            BoxLayout:
+                size_hint:1, None
+                height:35
+                padding:5
+                orientation:"horizontal"
+                
+                
+
+
+
+
+
+                TextInput:
+                    id:input_url
+                    size_hint:0.3, 1
+                    font_size:int(self.height/2)
+                
+                Button:
+                    id:button_add
+                    text:"Add"
+                    size_hint:0.1, 1
+                    font_size:int(self.height/2)
+
+
+                Spinner:
+                    id:input_source
+                    size_hint:0.20, 1
+                    values:('lightnovelpub', 'test')
+                    text:self.values[0]
+                    font_size:int(min([self.height/2, self.width/6]))
+
+
+
+                BoxLayout:
+                    orientation:"vertical"
+                    size_hint:0.05, 1
+
+
+
+                Label:
+                    size_hint:None, 1
+                    text:"Last : "
+                    width:self.texture_size[0]
+
+                Label:
+                    id:label_last
+                    size_hint:0.45, 1
+                    
+                
+
