@@ -17,6 +17,4 @@ temp config/chapterlist.ini
 temp config/config.ini
 temp config/style.ini
 .gitignore
-
 test.py
-.gitignore
