@@ -2,10 +2,37 @@ if __name__ == "__main__":
     import os
 
     if not os.path.isdir("DATA"):
-        os.mkdir("DATA")
+        from shutil import copytree
+        from pathlib import Path
+
+        __location__ = Path(__file__).parent.resolve()
+
+        copytree(
+            __location__.joinpath("template", "DATA"), __location__.joinpath("DATA")
+        )
 
     if not os.path.isdir("epub"):
         os.mkdir("epub")
+
+    if not os.path.isfile("epubstyle.css"):
+        from shutil import copyfile
+        from pathlib import Path
+
+        __location__ = Path(__file__).parent.resolve()
+        copyfile(
+            __location__.joinpath("template", "epubstyle.css"),
+            __location__.joinpath("epubstyle.css"),
+        )
+
+    if not os.path.isfile("gui.kv"):
+        from shutil import copyfile
+        from pathlib import Path
+
+        __location__ = Path(__file__).parent.resolve()
+        copyfile(
+            __location__.joinpath("template", "gui.kv"),
+            __location__.joinpath("gui.kv"),
+        )
 
     if not os.path.isdir("pdf"):
         os.mkdir("pdf")
@@ -16,7 +43,9 @@ if __name__ == "__main__":
 
         __location__ = Path(__file__).parent.resolve()
 
-        copytree(__location__.joinpath("template"), __location__.joinpath("config"))
+        copytree(
+            __location__.joinpath("template", "config"), __location__.joinpath("config")
+        )
 
     import lib
 
@@ -26,3 +55,7 @@ if __name__ == "__main__":
     import gui
 
     gui.Start()
+
+# when building exe with pyinstaller :
+# >>>pyinstaller --noconsole start.py
+# Then copy "template" and "kivy_venv\share\sdl2\bin" to "dist/start"

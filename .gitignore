@@ -18,3 +18,19 @@ temp config/config.ini
 temp config/style.ini
 .gitignore
 test.py
+build/start/Analysis-00.toc
+build/start/base_library.zip
+build/start/COLLECT-00.toc
+build/start/EXE-00.toc
+build/start/PKG-00.toc
+build/start/PYZ-00.pyz
+build/start/PYZ-00.toc
+build/start/start.exe
+build/start/start.exe.manifest
+build/start/start.pkg
+build/start/Tree-00.toc
+build/start/Tree-01.toc
+build/start/Tree-02.toc
+build/start/warn-start.txt
+build/start/xref-start.html
+start.spec
