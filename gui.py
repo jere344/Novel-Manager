@@ -5,8 +5,8 @@ from kivy.core.window import Window
 from kivy.properties import ObjectProperty
 from kivy.uix.anchorlayout import AnchorLayout
 from task import StartThread
-import lib
 import webbrowser
+import lib
 
 
 class Cover(AnchorLayout):
@@ -48,7 +48,9 @@ class ScraperWidget(Widget):
         # Window.bind(on_resize=self.Resize)
         self.flask_running = False
         self.Cover()
-        self.UpdateMiddlePannel(lib.config.sections()[1])
+        self.UpdateMiddlePannel(
+            lib.config.sections()[0] if lib.config.sections() else None
+        )
         self.Bind()
 
     def Bind(self):
@@ -78,8 +80,10 @@ class ScraperWidget(Widget):
         )
 
         self.icon.bind(
-            on_press=lambda _: webbrowser.open(
-                lib.config.get(self.novel_selected, "url")
+            on_press=lambda _: (
+                webbrowser.open(lib.config.get(self.novel_selected, "url"))
+                if self.novel_selected
+                else None
             )
         )
 
@@ -87,7 +91,7 @@ class ScraperWidget(Widget):
         """Place the novels cover in the scrolling grid"""
         self.cover_list = []
 
-        for name in lib.config.sections()[1:]:
+        for name in lib.config.sections():
             cover = Cover()
             cover.button.bind(
                 on_press=lambda _, novel=name: self.UpdateMiddlePannel(novel)
@@ -107,13 +111,18 @@ class ScraperWidget(Widget):
             10
             + 340
             * ceil(
-                int(len(lib.config.sections()[1:]))
-                / (self.grid_novel.cols if self.grid_novel.cols else 2)
+                len(lib.config.sections())
+                if lib.config.sections()
+                else 1 / (self.grid_novel.cols if self.grid_novel.cols else 2)
             )
         )
 
     def UpdateMiddlePannel(self, novel: str) -> None:
         """Update middle pannel for the selected novel"""
+        if not novel:
+            self.novel_selected = None
+            return None
+
         self.novel_selected = novel
         self.icon.background_normal = str(
             lib.__location__.joinpath(lib.config.get(novel, "picture"))
@@ -129,6 +138,7 @@ class ScraperWidget(Widget):
 
 class ScraperGui(App):
     config_file = ObjectProperty(lib.config)
+    style_file = ObjectProperty(lib.style)
 
     def build(self):
         self.ok = ScraperWidget()
@@ -140,23 +150,5 @@ class ScraperGui(App):
         # self.ok.grid_novel.add_widget(Cover())
 
 
-if __name__ == "__main__":
-    import os
-
-    if not os.path.isdir("DATA"):
-        os.mkdir("DATA")
-
-    if not os.path.isdir("epub"):
-        os.mkdir("epub")
-
-    if not os.path.isdir("pdf"):
-        os.mkdir("pdf")
-
-    if not os.path.isdir("config"):
-        import shutil
-
-        src = "templace"
-        dst = "config"
-        shutil.copy(src, dst)
-
+def Start():
     ScraperGui().run()

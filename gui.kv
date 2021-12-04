@@ -10,7 +10,7 @@
     font_size:'12sp'
 
 <Label>:
-    font_name:("DATA/" + "lucida-sans-unicode.ttf")
+    font_name:("DATA/" + app.style_file.get("GLOBAL", "font"))
 
 <Border@Canvas>:
     Color:
@@ -108,7 +108,7 @@
                     cols:int((self.parent.width - 10) / 240)
                     spacing:10
                     size_hint:1, None
-                    height:int(10 + 340 * ceil(int(len(app.config_file.sections()[1:])) / (self.cols if self.cols else 2)))
+                    height:int(10 + 340 * ceil(int(len(app.config_file.sections())) / (self.cols if self.cols else 2)))
 
             BoxLayout:
                 orientation:"horizontal"
@@ -264,7 +264,7 @@
                 Spinner:
                     id:input_source
                     size_hint:0.20, 1
-                    values:('lightnovelpub', 'test')
+                    values:('lightnovelpub', 'lightnovelpub')
                     text:self.values[0]
                     font_size:int(min([self.height/2, self.width/6]))
 

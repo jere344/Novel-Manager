@@ -91,7 +91,7 @@ Tested only on ubuntu and windows 10.
 > pip install requests  
 > pip install configparser  
 
-* Run gui.py
+* Run start.py
 
 to add novel :
 Only source currently is lightnovelpub  

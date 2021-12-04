@@ -33,10 +33,10 @@ def Download10(novel):
         return None
 
     for i in range(
-        int(lib.config.get(novel, "downloadedchapter")),
+        int(lib.config.get(novel, "downloadedchapter")) + 1,
         min(
             [
-                int(lib.config.get(novel, "downloadedchapter")) + 10,
+                int(lib.config.get(novel, "downloadedchapter")) + 11,
                 int(lib.config.get(novel, "maxchapter")),
             ]
         ),
@@ -47,7 +47,6 @@ def Download10(novel):
 
     lib.app.SetLast("chapters downloaded")
     misc.SetDownloaded(novel)
-    misc.SetTotalDownloaded()
     misc.Save(config=True)
     Refresh(text=False)
 
@@ -62,10 +61,10 @@ def Download100(novel):
         return None
 
     for i in range(
-        int(lib.config.get(novel, "downloadedchapter")),
+        int(lib.config.get(novel, "downloadedchapter")) + 1,
         min(
             [
-                int(lib.config.get(novel, "downloadedchapter")) + 100,
+                int(lib.config.get(novel, "downloadedchapter")) + 101,
                 int(lib.config.get(novel, "maxchapter")),
             ]
         ),
@@ -76,7 +75,6 @@ def Download100(novel):
 
     lib.app.SetLast("chapters downloaded")
     misc.SetDownloaded(novel)
-    misc.SetTotalDownloaded()
     misc.Save(config=True)
     Refresh(text=False)
 
@@ -92,7 +90,7 @@ def Downloadall(novel):
 
     lib.app.SetLast("downloaded started")
     for i in range(
-        int(lib.config.get(novel, "downloadedchapter")),
+        int(lib.config.get(novel, "downloadedchapter")) + 1,
         int(lib.config.get(novel, "maxchapter")),
     ):
         misc.SetChapter(novel, str(i))
@@ -100,7 +98,6 @@ def Downloadall(novel):
 
     lib.app.SetLast("chapters downloaded")
     misc.SetDownloaded(novel)
-    misc.SetTotalDownloaded()
     misc.Save(config=True)
     Refresh(text=False)
 
@@ -140,7 +137,7 @@ def Refresh(text=True):
     """Refresh UI and number of downloaded"""
     if text:
         lib.app.SetLast("refreshing")
-    for novel in lib.config.sections()[1:]:
+    for novel in lib.config.sections():
         misc.SetDownloaded(novel)
 
     # misc.SetTotalDownloaded()
@@ -157,7 +154,7 @@ def Delete(novel):
     misc.DeleteNovel(novel)
     misc.Save(config=True, chapterlist=True)
     lib.app.UpdateCover()
-    lib.app.UpdateMiddlePannel(lib.config.sections()[1])
+    lib.app.UpdateMiddlePannel(lib.config.sections()[0])
     lib.app.SetLast(f"deleted")
 
 

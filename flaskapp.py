@@ -29,7 +29,7 @@ css = f"""
         }}
         h1 {{
             color:{style_textcolor}; 
-            font-family: {style_font};
+            font-family:"{style_font}";
             text-align:center;
         }}
 
@@ -59,6 +59,37 @@ css = f"""
 
 def GenerateChapter(novel: str, chapter: int) -> str:
     # chapterinfo = [number, title, sourcelink]
+    from os.path import isfile
+
+    if not isfile(
+        str(
+            lib.__location__.joinpath("DATA/", novel, f"{novel} chapter {chapter}.txt")
+        ),
+    ):
+        html = f"""
+        <HTML> 
+            <HEAD>
+                <TITLE>{novel}</TITLE>
+                <style>{css}</style>
+            </HEAD>
+            <BODY style="background-color: {style_backgroundcolor}">
+                <div class="content" style="width:{lib.style.get("WEBVIEWER", "chapterwidth")};">
+                    <p>This chapter hasn't been downloaded <br>
+                    <br>
+                    To download chapter, start the app and click the download buttons.<br>
+                    If you want to do it without the gui you can execute in misc.py:<br>
+                    >>> SetChapter(novel, chapter_number) <br>
+                    <br>
+                    <br>
+                    More info on <a href="https://github.com/jere344/Novel-Manager">github</a>
+                    </p>
+                </div>
+            </BODY>
+        </HTML>
+        
+        """
+        return html
+
     chapterinfo = lib.chapterlist.get(novel, str(chapter)).split("/split/")
 
     with open(
@@ -74,23 +105,23 @@ def GenerateChapter(novel: str, chapter: int) -> str:
     <HTML> 
         <HEAD>
             <TITLE>{novel}</TITLE>
-                <style>
-                    {css}
-                    a.button_navigation {{
-                        -webkit-appearance: button;
-                        -moz-appearance: button;
-                        appearance: button;
+            <style>
+                {css}
+                a.button_navigation {{
+                    -webkit-appearance: button;
+                    -moz-appearance: button;
+                    appearance: button;
 
-                        background-color:  #2d73e7; 
-                        color: #c9cbce;
-                        padding: 8px 15px;
-                        text-align: center;
-                        text-decoration: none;
-                        border-radius: 4px;
-                        align-items: center;
-                        font-size: 30px;
-                    }}
-                </style>
+                    background-color:  #2d73e7; 
+                    color: #c9cbce;
+                    padding: 8px 15px;
+                    text-align: center;
+                    text-decoration: none;
+                    border-radius: 4px;
+                    align-items: center;
+                    font-size: 30px;
+                }}
+            </style>
         </HEAD>
         <BODY style="background-color: {style_backgroundcolor}">
             <div class="home"><a class="home" href="http://localhost:5000/">⌂</a></div>
@@ -218,7 +249,7 @@ def Chapter(novel: str, chapter: str):
 @app.route("/index")
 def GlobalIndex():
 
-    novel_list = lib.config.sections()[1:]
+    novel_list = lib.config.sections()
 
     i = 1
     content = ""

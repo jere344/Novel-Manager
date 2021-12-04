@@ -89,7 +89,7 @@ def SetChapter(novel: str, chapter_number: str):
 #     total = sum(
 #         [
 #             int(lib.config.get(section, "downloadedchapter"))
-#             for section in lib.config.sections()[1:]
+#             for section in lib.config.sections()
 #         ]
 #     )
 #     lib.config.set("*USER*", "totaldownloaded", str(total))
@@ -100,7 +100,7 @@ def SetChapter(novel: str, chapter_number: str):
 #     total = sum(
 #         [
 #             int(lib.config.get(section, "chapterread"))
-#             for section in lib.config.sections()[1:]
+#             for section in lib.config.sections()
 #         ]
 #     )
 #     lib.config.set("*USER*", "totalread", str(total))
