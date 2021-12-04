@@ -75,6 +75,3 @@ def Generate(novel):
         book,
         {"epub3_pages": False},
     )
-
-
-Generate("the-beginning-after-the-end-web-novel-07101329")

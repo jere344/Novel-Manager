@@ -1,3 +1,5 @@
+import requirement
+
 if __name__ == "__main__":
     import os
 
@@ -57,5 +59,7 @@ if __name__ == "__main__":
     gui.Start()
 
 # when building exe with pyinstaller :
-# >>>pyinstaller --noconsole start.py
-# Then copy "template" and "kivy_venv\share\sdl2\bin" to "dist/start"
+# >>>
+
+
+# python -m PyInstaller --noconsole --name package C:\Users\jerem\Desktop\kivy\start.py --add-data 'C:\Users\jerem\Desktop\kivy\template;.'

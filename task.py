@@ -154,7 +154,9 @@ def Delete(novel):
     misc.DeleteNovel(novel)
     misc.Save(config=True, chapterlist=True)
     lib.app.UpdateCover()
-    lib.app.UpdateMiddlePannel(lib.config.sections()[0])
+    lib.app.UpdateMiddlePannel(
+        lib.config.sections()[0] if lib.config.sections() else None
+    )
     lib.app.SetLast(f"deleted")
 
 
