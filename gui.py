@@ -43,8 +43,13 @@ class ScraperWidget(Widget):
     # Bottom pannel
     label_last = ObjectProperty(None)
 
+    def _OnResize(self, *_):
+        print(self.summary.width)
+        print(self.summary.font_size)
+
     def OnStart(self):
         Window.size = 540, 960
+        Window.bind(on_resize=self._OnResize)
         # Window.bind(on_resize=self.Resize)
         self.flask_running = False
         self.Cover()
@@ -128,8 +133,8 @@ class ScraperWidget(Widget):
             lib.__location__.joinpath(lib.config.get(novel, "picture"))
         )
         self.summary.text = lib.config.get(novel, "summary").strip()
-        self.label_downloaded.text = f'Downloaded :\n{lib.config.get(novel, "downloadedchapter")} / {lib.config.get(novel, "maxchapter")}'
-        self.label_read.text = f'Read :\n{lib.config.get(novel, "chapterread")} / {lib.config.get(novel, "maxchapter")}'
+        self.label_downloaded.text = f'Downloaded : {lib.config.get(novel, "downloadedchapter")} / {lib.config.get(novel, "maxchapter")}'
+        self.label_read.text = f'Read : {lib.config.get(novel, "chapterread")} / {lib.config.get(novel, "maxchapter")}'
         self.label_title.text = lib.config.get(self.novel_selected, "cleanname")
 
     def SetLast(self, value):

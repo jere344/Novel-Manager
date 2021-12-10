@@ -52,14 +52,15 @@ if __name__ == "__main__":
     import lib
 
     if not lib.config.sections():
-        import firstuse
+        pass
+        # import firstuse
 
     import gui
 
     gui.Start()
 
 # when building exe with pyinstaller :
-# >>>
-
-
 # python -m PyInstaller --noconsole --name package C:\Users\jerem\Desktop\kivy\start.py --add-data 'C:\Users\jerem\Desktop\kivy\template;.'
+
+# when building with buildozer :
+# buildozer debug deploy run

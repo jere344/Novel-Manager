@@ -13,3 +13,8 @@ __pycache__/start.cpython-39.pyc
 __pycache__/task.cpython-39.pyc
 .vscode/settings.json
 
+config/chapterlist.ini
+config/config.ini
+config/style.ini
+DATA/favicon.ico
+DATA/lucida-sans-unicode.ttf
