@@ -44,12 +44,13 @@ class ScraperWidget(Widget):
     label_last = ObjectProperty(None)
 
     def _OnResize(self, *_):
-        print(self.summary.width)
-        print(self.summary.font_size)
+        # print(self.summary.width)
+        # print(self.summary.font_size)
+        pass
 
     def OnStart(self):
         Window.size = 540, 960
-        Window.bind(on_resize=self._OnResize)
+        # Window.bind(on_resize=self._OnResize)
         # Window.bind(on_resize=self.Resize)
         self.flask_running = False
         self.Cover()
