@@ -50,6 +50,7 @@ class ScraperWidget(Widget):
 
     def OnStart(self):
         Window.size = 540, 960
+        Window.softinput_mode = "below_target"
         # Window.bind(on_resize=self._OnResize)
         # Window.bind(on_resize=self.Resize)
         self.flask_running = False

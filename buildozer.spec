@@ -22,7 +22,7 @@ source.include_patterns = *.py,*.kv,*.png,template/*
 #source.exclude_exts = spec
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-source.exclude_dirs = .buildozer, .debris, bin, config, DATA, epub,kivy_venv, pdf
+source.exclude_dirs = .buildozer, .debris, bin, config, DATA, epub,kivy_venv, pdf,Rubbish
 
 # (list) List of exclusions using pattern matching
 # Do not prefix with './'
