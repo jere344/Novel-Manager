@@ -1,59 +1,97 @@
-import requirement
+import os
+import lib
 
-if __name__ == "__main__":
-    import os
 
-    if not os.path.isdir("DATA"):
+def AndroidFiles():
+    # TODO DATA
+    # TODO book
+    # TODO config
+
+    if not os.path.isfile(lib.__location__.joinpath("epubstyle.css")):
+        from shutil import copyfile
+
+        copyfile(
+            lib.__location__.joinpath("template", "epubstyle.css"),
+            lib.__location__.joinpath("epubstyle.css"),
+        )
+
+    if not os.path.isfile(lib.__location__.joinpath("gui.kv")):
+        from shutil import copyfile
+
+        copyfile(
+            lib.__location__.joinpath("template", "gui.kv"),
+            lib.__location__.joinpath("gui.kv"),
+        )
+
+    if not os.path.isdir(lib.__location__.joinpath("config")):
         from shutil import copytree
-        from pathlib import Path
-
-        __location__ = Path(__file__).parent.resolve()
 
         copytree(
-            __location__.joinpath("template", "DATA"), __location__.joinpath("DATA")
+            lib.__location__.joinpath("template", "config"),
+            lib.__location__.joinpath("config"),
         )
-
-    if not os.path.isdir("epub"):
-        os.mkdir("epub")
-
-    if not os.path.isfile("epubstyle.css"):
-        from shutil import copyfile
-        from pathlib import Path
-
-        __location__ = Path(__file__).parent.resolve()
-        copyfile(
-            __location__.joinpath("template", "epubstyle.css"),
-            __location__.joinpath("epubstyle.css"),
-        )
-
-    if not os.path.isfile("gui.kv"):
-        from shutil import copyfile
-        from pathlib import Path
-
-        __location__ = Path(__file__).parent.resolve()
-        copyfile(
-            __location__.joinpath("template", "gui.kv"),
-            __location__.joinpath("gui.kv"),
-        )
-
-    if not os.path.isdir("pdf"):
-        os.mkdir("pdf")
-
-    if not os.path.isdir("config"):
-        from shutil import copytree
-        from pathlib import Path
-
-        __location__ = Path(__file__).parent.resolve()
-
-        copytree(
-            __location__.joinpath("template", "config"), __location__.joinpath("config")
-        )
-
-    import lib
 
     if not lib.config.sections():
-        pass
-        # import firstuse
+        import firstuse
+
+        firstuse.GenerateHTML()
+        firstuse.AndroidOpenHTML()
+
+
+def DesktopFiles():
+
+    if not os.path.isdir(lib.__location__.joinpath("DATA")):
+        from shutil import copytree
+
+        copytree(
+            lib.__location__.joinpath("template", "DATA"),
+            lib.__location__.joinpath("DATA"),
+        )
+
+    if not os.path.isdir(lib.__location__.joinpath("book")):
+        os.mkdir(lib.__location__.joinpath("book"))
+
+    if not os.path.isfile(lib.__location__.joinpath("epubstyle.css")):
+        from shutil import copyfile
+
+        copyfile(
+            lib.__location__.joinpath("template", "epubstyle.css"),
+            lib.__location__.joinpath("epubstyle.css"),
+        )
+
+    if not os.path.isfile(lib.__location__.joinpath("gui.kv")):
+        from shutil import copyfile
+
+        copyfile(
+            lib.__location__.joinpath("template", "gui.kv"),
+            lib.__location__.joinpath("gui.kv"),
+        )
+
+    if not os.path.isdir(lib.__location__.joinpath("config")):
+        from shutil import copytree
+
+        copytree(
+            lib.__location__.joinpath("template", "config"),
+            lib.__location__.joinpath("config"),
+        )
+
+    if not lib.config.sections():
+        import firstuse
+
+        firstuse.GenerateHTML()
+        firstuse.DesktopOpenHTML()
+
+
+if __name__ == "__main__":
+
+    if lib.user_os in ["win", "linux"]:
+        DesktopFiles()
+
+    elif lib.user_os == "android":
+        AndroidFiles()
+
+    else:
+        raise Exception("Platform not supported")
 
     import gui
 

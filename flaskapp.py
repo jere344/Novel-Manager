@@ -2,14 +2,15 @@
 
 from flask import Flask, render_template_string, send_from_directory, redirect
 import lib
+import misc
 
 app = Flask(
     __name__,
-    static_url_path=f"/{lib.__location__}",
-    static_folder="DATA",
+    static_url_path=f"/{lib.DATA__location__}",
+    static_folder="",
 )
 
-style_font = lib.style.get("WEBVIEWER", "font")
+style_font = f'{lib.pathlib.PurePath(lib.DATA__location__).name}/{lib.style.get("WEBVIEWER", "font")}'
 style_textcolor = lib.style.get("WEBVIEWER", "textcolor")
 style_backgroundcolor = lib.style.get("WEBVIEWER", "backgroundcolor")
 
@@ -62,9 +63,7 @@ def GenerateChapter(novel: str, chapter: int) -> str:
     from os.path import isfile
 
     if not isfile(
-        str(
-            lib.__location__.joinpath("DATA/", novel, f"{novel} chapter {chapter}.txt")
-        ),
+        str(lib.DATA__location__.joinpath(novel, f"{novel} chapter {chapter}.txt")),
     ):
         html = f"""
         <HTML> 
@@ -93,9 +92,7 @@ def GenerateChapter(novel: str, chapter: int) -> str:
     chapterinfo = lib.chapterlist.get(novel, str(chapter)).split("/split/")
 
     with open(
-        str(
-            lib.__location__.joinpath("DATA/", novel, f"{novel} chapter {chapter}.txt")
-        ),
+        str(lib.DATA__location__.joinpath(novel, f"{novel} chapter {chapter}.txt")),
         "r",
         encoding="utf-8",
     ) as file:
@@ -237,10 +234,7 @@ def Chapter(novel: str, chapter: str):
 
     # for exemple if you go to page chapter 9, set the chapter 8 as read.
     lib.config.set(novel, "chapterread", str(int(chapter) - 1))
-    with open(
-        lib.__location__.joinpath("config.ini"), "w", encoding="utf-8"
-    ) as configfile:
-        lib.config.write(configfile)
+    misc.Save(config=True)
 
     return render_template_string(html)
 
@@ -254,9 +248,7 @@ def GlobalIndex():
     i = 1
     content = ""
     for novel in novel_list:
-        novel_pic = lib.config.get(novel, "picture")
-        # get picture path without -resized
-        novel_pic = novel_pic[5:-12] + novel_pic[-4:]
+        novel_pic = f"{lib.pathlib.PurePath(lib.DATA__location__).name}/{novel}/{novel}{lib.config.get(novel, 'coverformat')}"
 
         summary = lib.config.get(novel, "summary").replace("\n", "<br>")
 
@@ -330,11 +322,6 @@ def GlobalIndex():
         </BODY>
     </HTML>
     """
-
-    with open(
-        lib.__location__.joinpath("config.ini"), "w", encoding="utf-8"
-    ) as configfile:
-        lib.config.write(configfile)
 
     return render_template_string(html)
 

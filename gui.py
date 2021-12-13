@@ -98,13 +98,15 @@ class ScraperWidget(Widget):
         """Place the novels cover in the scrolling grid"""
         self.cover_list = []
 
-        for name in lib.config.sections():
+        for novel in lib.config.sections():
             cover = Cover()
             cover.button.bind(
-                on_press=lambda _, novel=name: self.UpdateMiddlePannel(novel)
+                on_press=lambda _, novel=novel: self.UpdateMiddlePannel(novel)
             )
             cover.button.background_normal = str(
-                lib.__location__.joinpath(lib.config.get(name, "picture"))
+                lib.DATA__location__.joinpath(
+                    novel, novel + lib.config.get(novel, "coverformat")
+                )
             )
             self.cover_list.append(cover)
             self.grid_novel.add_widget(cover)
@@ -132,7 +134,9 @@ class ScraperWidget(Widget):
 
         self.novel_selected = novel
         self.icon.background_normal = str(
-            lib.__location__.joinpath(lib.config.get(novel, "picture"))
+            lib.DATA__location__.joinpath(
+                novel, novel + lib.config.get(novel, "coverformat")
+            )
         )
         self.summary.text = lib.config.get(novel, "summary").strip()
         self.label_downloaded.text = f'Downloaded : {lib.config.get(novel, "downloadedchapter")} / {lib.config.get(novel, "maxchapter")}'

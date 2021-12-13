@@ -167,8 +167,8 @@ def AddNovel(novel, source):
 
     # try:
 
-    if not os.path.isdir(lib.__location__.joinpath("DATA/", novel)):
-        os.mkdir(lib.__location__.joinpath("DATA/", novel))
+    if not os.path.isdir(lib.DATA__location__.joinpath(novel)):
+        os.mkdir(lib.DATA__location__.joinpath(novel))
 
     # If exist do nothing else ignore error and add section
     try:

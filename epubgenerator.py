@@ -12,16 +12,23 @@ def Generate(novel):
     book.set_title(novel)
     book.set_language("en")
     book.add_author("N/A")
-    pic = lib.config.get(novel, "picture").replace("-resized", "")
-    book.set_cover("image.jpg", open(lib.__location__.joinpath(pic), "rb").read())
+    book.set_cover(
+        "image.jpg",
+        open(
+            lib.DATA__location__.joinpath(
+                novel, novel + lib.config.get(novel, "coverformat")
+            ),
+            "rb",
+        ).read(),
+    )
 
     spine = []
     i = 1
     while os.path.isfile(
-        lib.__location__.joinpath("DATA", novel, f"{novel} chapter {i}.txt")
+        lib.DATA__location__.joinpath(novel, f"{novel} chapter {i}.txt")
     ):
         with open(
-            lib.__location__.joinpath("DATA", novel, f"{novel} chapter {i}.txt"),
+            lib.DATA__location__.joinpath(novel, f"{novel} chapter {i}.txt"),
             "r",
             encoding="utf-8",
         ) as file:
@@ -71,7 +78,7 @@ def Generate(novel):
     book.add_item(css)
     book.spine = spine
     epub.write_epub(
-        lib.__location__.joinpath("epub", f"{novel} chapter 1 to {i-1}.epub"),
+        lib.book__location__.joinpath(f"{novel} chapter 1 to {i-1}.epub"),
         book,
         {"epub3_pages": False},
     )

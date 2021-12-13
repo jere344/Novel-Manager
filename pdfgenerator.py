@@ -10,7 +10,7 @@ def Generate(novel):
     pdf.add_font(
         font,
         style="",
-        fname=str(lib.__location__.joinpath("DATA", font)),
+        fname=str(lib.DATA__location__.joinpath(font)),
         uni=True,
     )
     pdf.set_font(font, size=12)
@@ -18,16 +18,17 @@ def Generate(novel):
 
     pdf.add_page()
     pdf.image(
-        lib.__location__.joinpath(
-            lib.config.get(novel, "picture").replace("-resized", "")
+        lib.DATA__location__.joinpath(
+            novel, novel + lib.config.get(novel, "coverformat")
         )
     )
+
     pdf.add_page()
 
     i = 1
-    while isfile(lib.__location__.joinpath("DATA", novel, f"{novel} chapter {i}.txt")):
+    while isfile(lib.DATA__location__.joinpath(novel, f"{novel} chapter {i}.txt")):
         with open(
-            lib.__location__.joinpath("DATA", novel, f"{novel} chapter {i}.txt"),
+            lib.DATA__location__.joinpath(novel, f"{novel} chapter {i}.txt"),
             "r",
             encoding="utf-8",
         ) as chapter_file:
@@ -38,7 +39,7 @@ def Generate(novel):
         i += 1
 
     pdf.output(
-        lib.__location__.joinpath("pdf", f"{novel} chapter 1 to {i-1}.pdf"),
+        lib.book__location__.joinpath(f"{novel} chapter 1 to {i-1}.pdf"),
     )
 
 

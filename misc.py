@@ -15,13 +15,13 @@ def Save(config=False, chapterlist=False, style=False):
     """Save config files"""
     if config:
         with open(
-            lib.__location__.joinpath("config", "config.ini"), "w", encoding="utf-8"
+            lib.config__location__.joinpath("config.ini"), "w", encoding="utf-8"
         ) as configfile:
             lib.config.write(configfile)
 
     if chapterlist:
         with open(
-            lib.__location__.joinpath("config", "chapterlist.ini"),
+            lib.config__location__.joinpath("chapterlist.ini"),
             "w",
             encoding="utf-8",
         ) as configfile:
@@ -29,7 +29,7 @@ def Save(config=False, chapterlist=False, style=False):
 
     if style:
         with open(
-            lib.__location__.joinpath("config", "style.ini"), "w", encoding="utf-8"
+            lib.config__location__.joinpath("style.ini"), "w", encoding="utf-8"
         ) as configfile:
             lib.style.write(configfile)
 
@@ -44,7 +44,7 @@ def SetCover(novel: str) -> str:
     scraper = __import__(lib.config.get(novel, "source"))
     pic = scraper.ScrapPic(novel, lib.proxies)
 
-    relative_path = str(lib.__location__.joinpath("DATA", novel, novel))
+    relative_path = str(lib.DATA__location__.joinpath(novel, novel))
 
     # Put the picture in DATA/novel
     with open(relative_path + pic[1], "wb") as file:
@@ -56,7 +56,7 @@ def SetCover(novel: str) -> str:
     image = Image.open(relative_path + pic[1])
     image.resize((230, 330)).save(relative_path + "-resized" + pic[1])
 
-    lib.config.set(novel, "Picture", f"DATA/{novel}/{novel}-resized{pic[1]}")
+    lib.config.set(novel, "coverformat", pic[1])
 
 
 def SetChapter(novel: str, chapter_number: str):
@@ -72,9 +72,7 @@ def SetChapter(novel: str, chapter_number: str):
     ch = scraper.ScrapText(lib.proxies, info_chapter).strip()
 
     with open(
-        lib.__location__.joinpath(
-            "DATA", novel, f"{novel} chapter {chapter_number}.txt"
-        ),
+        lib.DATA__location__.joinpath(novel, f"{novel} chapter {chapter_number}.txt"),
         "w",
         encoding="utf-8",
     ) as chapter:
@@ -125,7 +123,7 @@ def SetDownloaded(novel: str) -> str:
     i = 1
     from os.path import isfile
 
-    while isfile(lib.__location__.joinpath("DATA", novel, f"{novel} chapter {i}.txt")):
+    while isfile(lib.DATA__location__.joinpath(novel, f"{novel} chapter {i}.txt")):
         i += 1
 
     lib.config.set(novel, "downloadedchapter", str(i - 1))
@@ -135,7 +133,7 @@ def DeleteNovel(novel):
     from shutil import rmtree
 
     try:
-        rmtree(str(lib.__location__.joinpath("DATA", novel)))
+        rmtree(str(lib.DATA__location__.joinpath(novel)))
     except FileNotFoundError:
         pass
 
