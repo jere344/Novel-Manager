@@ -1,13 +1,11 @@
 # Novel Manager
 
+Don't use it, it's outdated and unmaintained. I keep it there since it uses Kivy which is quite uncommon.
 
-Still in beta
 A simple novel scraper / manager in python.
 Was made with mobile in mind but perfectly usable on pc
 
 
-
-It is my first time making a real program and it is still in beta. If you see bugs, improvement (you will), please tell me. And sorry if I don't respect the etiquette and for my broken english.
 
 
 ## Features
