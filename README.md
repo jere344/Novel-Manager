@@ -103,12 +103,6 @@ In the bottom row :
 
 
 
-## Authors
-
-jere344
-discord : bygourou (jere344)#0802
-
-
 ## Version History
 
 * 0.1
